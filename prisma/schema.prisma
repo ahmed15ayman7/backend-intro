@@ -1,0 +1,52 @@
+datasource db {
+  provider = "sqlite" // أو "sqlite" إذا كنت تستخدم SQLite
+  url      = "file:./db/dev.db" // تأكد من إعداد DATABASE_URL في ملف .env
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  orders    Order[] // علاقة مع الطلبات
+  reviews   Review[] // علاقة مع المراجعات
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  price       Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  orders      Order[] // علاقة مع الطلبات
+  reviews     Review[] // علاقة مع المراجعات
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  quantity  Int
+  total     Float
+  userId    Int
+  productId Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  content   String
+  rating    Int      @default(0) // تقييم من 0 إلى 5
+  userId    Int
+  productId Int
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+}
