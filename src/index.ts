@@ -21,7 +21,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   console.log(`تم استلام طلب: ${req.method} على الرابط ${req.url}`);
   next();
 });
-
+app.get("/", async (req: Request, res: Response) => {
+  res.json(`hello`);
+});
 ///////////////////////////////
 // CRUD Operations for Users //
 ///////////////////////////////

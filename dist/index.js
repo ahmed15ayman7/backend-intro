@@ -31,6 +31,9 @@ app.use((req, res, next) => {
     console.log(`تم استلام طلب: ${req.method} على الرابط ${req.url}`);
     next();
 });
+app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    res.json(`hello`);
+}));
 ///////////////////////////////
 // CRUD Operations for Users //
 ///////////////////////////////
