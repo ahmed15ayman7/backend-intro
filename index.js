@@ -1,7 +1,7 @@
-import express, { Request, Response, NextFunction } from "express";
-import { Server } from "socket.io";
-import http from "http";
-import { prisma } from "./lib/prisma";
+const express = require("express");
+const { Server } = require("socket.io");
+const http = require("http");
+const { prisma } = require("./api/lib/prisma");
 
 const app = express();
 const server = http.createServer(app);
@@ -17,11 +17,11 @@ const PORT = 3000;
 app.use(express.json());
 
 // Middleware للوصول لكل طلب
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req, res, next) => {
   console.log(`تم استلام طلب: ${req.method} على الرابط ${req.url}`);
   next();
 });
-app.get("/", async (req: Request, res: Response) => {
+app.get("/", async (req, res) => {
   res.json(`hello`);
 });
 ///////////////////////////////
@@ -29,7 +29,7 @@ app.get("/", async (req: Request, res: Response) => {
 ///////////////////////////////
 
 // إنشاء مستخدم جديد
-app.post("/api/users", async (req: Request, res: Response) => {
+app.post("/api/users", async (req, res) => {
   try {
     const user = await prisma.user.create({
       data: req.body,
@@ -42,7 +42,7 @@ app.post("/api/users", async (req: Request, res: Response) => {
 });
 
 // قراءة جميع المستخدمين
-app.get("/api/users", async (req: Request, res: Response) => {
+app.get("/api/users", async (req, res) => {
   try {
     const users = await prisma.user.findMany();
     res.json(users);
@@ -52,7 +52,7 @@ app.get("/api/users", async (req: Request, res: Response) => {
 });
 
 // قراءة مستخدم واحد
-app.get("/api/users/:id", async (req: any, res: any) => {
+app.get("/api/users/:id", async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: parseInt(req.params.id) },
@@ -65,7 +65,7 @@ app.get("/api/users/:id", async (req: any, res: any) => {
 });
 
 // تحديث مستخدم
-app.put("/api/users/:id", async (req: Request, res: Response) => {
+app.put("/api/users/:id", async (req, res) => {
   try {
     const user = await prisma.user.update({
       where: { id: parseInt(req.params.id) },
@@ -79,7 +79,7 @@ app.put("/api/users/:id", async (req: Request, res: Response) => {
 });
 
 // حذف مستخدم
-app.delete("/api/users/:id", async (req: Request, res: Response) => {
+app.delete("/api/users/:id", async (req, res) => {
   try {
     await prisma.user.delete({
       where: { id: parseInt(req.params.id) },
@@ -95,7 +95,7 @@ app.delete("/api/users/:id", async (req: Request, res: Response) => {
 // CRUD Operations for Products //
 /////////////////////////////////
 
-app.post("/api/products", async (req: Request, res: Response) => {
+app.post("/api/products", async (req, res) => {
   try {
     const product = await prisma.product.create({
       data: req.body,
@@ -107,7 +107,7 @@ app.post("/api/products", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/api/products", async (req: Request, res: Response) => {
+app.get("/api/products", async (req, res) => {
   try {
     const products = await prisma.product.findMany();
     res.json(products);
@@ -116,7 +116,7 @@ app.get("/api/products", async (req: Request, res: Response) => {
   }
 });
 
-app.get("/api/products/:id", async (req: any, res: any) => {
+app.get("/api/products/:id", async (req, res) => {
   try {
     const product = await prisma.product.findUnique({
       where: { id: parseInt(req.params.id) },
@@ -128,7 +128,7 @@ app.get("/api/products/:id", async (req: any, res: any) => {
   }
 });
 
-app.put("/api/products/:id", async (req: Request, res: Response) => {
+app.put("/api/products/:id", async (req, res) => {
   try {
     const product = await prisma.product.update({
       where: { id: parseInt(req.params.id) },
@@ -141,7 +141,7 @@ app.put("/api/products/:id", async (req: Request, res: Response) => {
   }
 });
 
-app.delete("/api/products/:id", async (req: Request, res: Response) => {
+app.delete("/api/products/:id", async (req, res) => {
   try {
     await prisma.product.delete({
       where: { id: parseInt(req.params.id) },

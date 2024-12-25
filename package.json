@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-      "build": "prisma generate && tsc",
-      "start": "node dist/index.js",
-    "dev": "ts-node src/index.ts"
-  }
-,  
+    "start": "node index.js",
+    "build": "prisma generate "
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -18,8 +16,6 @@
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "@types/express": "^5.0.0",
-    "@types/socket.io": "^3.0.1",
     "prisma": "^6.1.0"
   }
 }
